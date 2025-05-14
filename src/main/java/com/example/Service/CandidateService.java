@@ -3,8 +3,8 @@ package com.example.Service;
 import com.example.Model.*;
 import com.example.Repo.CandidateRepo;
 import com.example.Repo.DocRepo;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +13,18 @@ import java.util.List;
 @Service
 public class CandidateService {
     @Autowired
+    private PasswordEncoder passwordEncoder ;
+
+    @Autowired
     private CandidateRepo candidateRepo ;
 
     @Autowired
     private DocRepo docRepo ;
 
     public void saveEntry(Candidate candidate){
+        String raw_password = candidate.getPersonalInfo().getPassword() ;
+        String encoded_password = passwordEncoder.encode(raw_password) ;
+        candidate.getPersonalInfo().setPassword(encoded_password); //set the encoded password
         candidateRepo.save(candidate) ;
     }
 

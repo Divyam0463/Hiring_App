@@ -17,6 +17,7 @@ public class PersonalInfo {
 
     private String education_information ;
     private String bank ;
+    private String password ;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JsonBackReference
