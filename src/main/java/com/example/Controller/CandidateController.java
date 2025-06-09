@@ -1,10 +1,13 @@
 package com.example.Controller;
 
 import com.example.Model.Candidate;
+import com.example.Repo.CandidateRepo;
 import com.example.Service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +19,9 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService ;
 
+    @Autowired
+    private CandidateRepo candidateRepo ;
+
     @PostMapping("/user/register")
     public String addNormally(@RequestBody Candidate candidate){
         candidateService.saveEntry(candidate);
@@ -23,7 +29,7 @@ public class CandidateController {
     }
 
     //admin
-    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/all-users")
     public List<Candidate> getAllCandidates(){
         return candidateService.getCandidates() ;

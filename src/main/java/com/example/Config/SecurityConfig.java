@@ -1,4 +1,4 @@
-package com.example.Config;
+package main.java.com.example.Config;
 
 import com.example.Service.CandidateDetailsService;
 import lombok.extern.slf4j.Slf4j;

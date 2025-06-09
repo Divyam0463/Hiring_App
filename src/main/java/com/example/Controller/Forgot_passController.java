@@ -73,8 +73,8 @@ public class Forgot_passController {
         }
 
         //else -> candidate is found
-        String encoded_pass = passwordEncoder.encode(password) ;
-        candidate.getPersonalInfo().setPassword(encoded_pass) ;
+//        String encoded_pass = passwordEncoder.encode(password) ;
+//        candidate.getPersonalInfo().setPassword(encoded_pass) ;
         candidateRepo.save(candidate);
         //
         System.out.println("password changed to: "+password);

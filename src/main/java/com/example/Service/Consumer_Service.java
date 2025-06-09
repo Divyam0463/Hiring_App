@@ -1,14 +1,14 @@
 package com.example.Service;
 
-import com.example.Config.EmailConfig;
-import com.example.DTO.EmailStatus;
+import java.util.regex.Pattern;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.example.Config.EmailConfig;
+import com.example.DTO.EmailStatus;
 
 @Component
 public class Consumer_Service{

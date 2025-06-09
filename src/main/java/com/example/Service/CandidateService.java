@@ -25,6 +25,7 @@ public class CandidateService {
         String raw_password = candidate.getPersonalInfo().getPassword() ;
         String encoded_password = passwordEncoder.encode(raw_password) ;
         candidate.getPersonalInfo().setPassword(encoded_password); //set the encoded password
+        System.out.println(encoded_password);
         candidateRepo.save(candidate) ;
     }
 

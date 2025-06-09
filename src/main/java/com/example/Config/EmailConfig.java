@@ -1,6 +1,11 @@
 package com.example.Config;
 
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -24,7 +29,8 @@ public class EmailConfig {
     public Queue exp_queue(){
         return QueueBuilder.durable(EmailConfig.QUEUE)
                 .withArgument("x-dead-letter-exchange" ,DEAD_EXCHANGE)
-                .withArgument("x-dead-letter-routing-key",DEAD_ROUTING_KEY)
+                .withArgument("x-dead-letter-routing-key",DEAD_ROUTING_KEY
+                )
                 .build() ;
     }
 

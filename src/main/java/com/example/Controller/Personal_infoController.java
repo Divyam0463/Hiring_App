@@ -1,6 +1,5 @@
 package com.example.Controller;
 
-import com.example.Config.EmailConfig;
 import com.example.DTO.BankInfoDTO;
 import com.example.DTO.EducationalInfoDTO;
 import com.example.DTO.EmailStatus;
