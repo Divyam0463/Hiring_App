@@ -1,4 +1,4 @@
-package main.java.com.example.Config;
+package com.example.Config;
 
 import com.example.Service.CandidateDetailsService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,23 +23,23 @@ public class SecurityConfig {
     @Autowired
     private CandidateDetailsService candidateDetailsService ;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        System.out.println("Security filter chain loaded");
-        return
-                httpSecurity.csrf(customizer -> customizer.disable())
-                        .authorizeHttpRequests(customizer -> customizer
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/api/**").hasAnyRole("USER","ADMIN","HR")
-                                //allow unauthenticated access for a new user
-                                .requestMatchers("/user/**").permitAll()
-                                .anyRequest().authenticated())
-                        //all the requests above
-
-                                .httpBasic(Customizer.withDefaults())
-                        .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        System.out.println("Security filter chain loaded");
+//        return
+//                httpSecurity.csrf(customizer -> customizer.disable())
+//                        .authorizeHttpRequests(customizer -> customizer
+//                                .requestMatchers("/admin/**").hasRole("ADMIN")
+//                                .requestMatchers("/api/**").hasAnyRole("USER","ADMIN","HR")
+//                                //allow unauthenticated access for a new user
+//                                .requestMatchers("/user/**").permitAll()
+//                                .anyRequest().authenticated())
+//                        //all the requests above
+//
+//                                .httpBasic(Customizer.withDefaults())
+//                        .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                        .build();
+//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -56,4 +56,40 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder() ;
     }
 
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        System.out.println("Security filter chain loaded");
+        return httpSecurity
+                .csrf(customizer -> customizer.disable())
+                .authorizeHttpRequests(customizer -> customizer
+                        .requestMatchers(
+                                "/swagger-ui/**",        // Swagger UI
+                                "/swagger-ui.html",      // Swagger HTML
+                                "/v3/api-docs/**",       // OpenAPI docs
+                                "/swagger-resources/**", // Swagger resources
+                                "/webjars/**",            // JS/CSS for Swagger
+                                "/user/**"
+                        ).permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/**").hasAnyRole("USER", "ADMIN", "HR")
+                        .requestMatchers("/user/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
+    }
+
+
 }
+
+//
+//@Bean
+//public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    http
+//            .csrf().disable()
+//            .authorizeHttpRequests()
+//            .anyRequest().permitAll();
+//    return http.build();
+//}
+

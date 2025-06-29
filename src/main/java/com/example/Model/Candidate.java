@@ -1,19 +1,18 @@
 package com.example.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Candidate {
+public class Candidate implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id ;
@@ -26,11 +25,11 @@ public class Candidate {
 	private ApplicationStatus applicationStatus ;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "personal_info_id")
 	private PersonalInfo personalInfo ;
 
-	@OneToMany(mappedBy = "candidate",cascade = CascadeType.ALL)
-	@JsonManagedReference
-	private List<Doc> documents = new ArrayList<>();
+	@OneToMany(mappedBy = "candidate", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Doc> documents;
 
 	//Admin or HR (for secure API access)
 	private String role ;
